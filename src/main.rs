@@ -3,7 +3,9 @@ use specs::prelude::*;
 use std::cmp::{max, min};
 use specs_derive::Component;
 
-struct State {}
+struct State {
+    ecs: World,
+}
 impl GameState for State {
     fn tick(&mut self, ctx : &mut Rltk) {
         ctx.cls();
@@ -29,6 +31,33 @@ fn main() -> rltk::BError {
     let context = RltkBuilder::simple80x50()
         .with_title("A Roguelike Resume")
         .build()?;
-    let gs = State{ };
+    let mut gs = State{ 
+        ecs: World::new()
+    };
+    gs.ecs.register::<Position>();
+    gs.ecs.register::<Renderable>();
+ 
+    gs.ecs
+        .create_entity()
+        .with(Position { x: 42, y: 42 })
+        .with(Renderable {
+            glyph: rltk::to_cp437('@'),
+            fg: RGB::named(rltk::YELLOW),
+            bg: RGB::named(rltk::BLACK),
+        }) 
+        .build();
+
+    for i in 0..10 {
+        gs.ecs
+        .create_entity()
+        .with(Position {x: i * 7, y: 20})
+        .with(Renderable {
+            glyph: rltk::to_cp437('Σ'),
+            fg: RGB::named(rltk::RED),
+            bg: RGB::named(rltk::BLACK),
+        })
+        .build();
+    }
+
     rltk::main_loop(context, gs)
 }
