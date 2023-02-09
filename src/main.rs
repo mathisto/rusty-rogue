@@ -17,6 +17,13 @@ struct Position {
     y: i32,
 }
 
+#[derive(Component)]
+struct Renderable {
+    glyph: rltk::FontCharType,
+    fg: RGB,
+    bg: RGB,
+}
+
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
     let context = RltkBuilder::simple80x50()
