@@ -6,8 +6,19 @@ use specs_derive::Component;
 struct State {
     ecs: World,
 }
+impl State {
+    fn run_systems(&mut self) {
+        let mut left_walker = LeftWalker{};
+        left_walker.run_now(&self.ecs);
+        self.ecs.maintain();
+    }
+}
 impl GameState for State {
     fn tick(&mut self, ctx : &mut Rltk) {
+        ctx.cls();
+
+        self.run_systems();
+
         let positions = self.ecs.read_storage::<Position>();
         let renderables = self.ecs.read_storage::<Renderable>();
 
