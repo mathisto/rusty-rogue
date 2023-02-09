@@ -17,6 +17,19 @@ impl GameState for State {
     }
 }
 
+struct LeftWalker {}
+impl<'a> System<'a> for LeftWalker {
+    type SystemData = (ReadStorage<'a, LeftMover>,
+                        WriteStorage<'a, Position>);
+
+    fn run(&mut self, (lefty, mut pos) : Self::SystemData) {
+        for (_lefty, pos) in (&lefty, &mut pos).join() {
+            pos.x -= 1;
+            if pos.x < 0 { pos.x = 79; }
+        }
+    }
+}
+
 #[derive(Component)]
 struct Position {
     x: i32,
@@ -30,6 +43,9 @@ struct Renderable {
     bg: RGB,
 }
 
+#[derive(Component)]
+struct LeftMover {}
+
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
     let context = RltkBuilder::simple80x50()
@@ -38,9 +54,13 @@ fn main() -> rltk::BError {
     let mut gs = State{ 
         ecs: World::new()
     };
+
+    // Registration
+    gs.ecs.register::<LeftMover>();
     gs.ecs.register::<Position>();
     gs.ecs.register::<Renderable>();
- 
+
+    // Entity Building
     gs.ecs
         .create_entity()
         .with(Position { x: 42, y: 42 })
@@ -60,6 +80,7 @@ fn main() -> rltk::BError {
             fg: RGB::named(rltk::RED),
             bg: RGB::named(rltk::BLACK),
         })
+        .with(LeftMover{})
         .build();
     }
 
