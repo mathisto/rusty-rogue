@@ -12,7 +12,8 @@ I'll keep good commit hygeine so you can easily read the log for a high level ov
 [Dwarf Fortress' ASCII Glyph Table](http://dwarffortresswiki.org/index.php/Character_table)
 
 ### Chapter 2 (Complete)
-Whoa! I got this thing painting pixels in no time
-Holy bejeebers this tutorial is ON POINT.
-YAY! We have a left moving "marquee" of smiles
-Vim keys. YES PLEASE.
+- Whoa! I got this thing painting pixels in no time
+- Holy bejeebers this tutorial is ON POINT.
+- YAY! We have a left moving "marquee" of smiles
+- Vim keys. YES PLEASE.
+- <img width="646" alt="image" src="https://user-images.githubusercontent.com/8226466/217732654-2b264ae5-369c-4931-8078-4a43874ba1fd.png">
