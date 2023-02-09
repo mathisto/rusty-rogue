@@ -8,8 +8,12 @@ struct State {
 }
 impl GameState for State {
     fn tick(&mut self, ctx : &mut Rltk) {
-        ctx.cls();
-        ctx.print(1, 1, "Hullo, Singularity6!")
+        let positions = self.ecs.read_storage::<Position>();
+        let renderables = self.ecs.read_storage::<Renderable>();
+
+        for (pos, render) in (&positions, &renderables).join() {
+            ctx.set(pos.x, pos.y, render.fg, render.bg, render.glyph);
+        }
     }
 }
 
@@ -47,12 +51,12 @@ fn main() -> rltk::BError {
         }) 
         .build();
 
-    for i in 0..10 {
+    for i in 0..20 {
         gs.ecs
         .create_entity()
-        .with(Position {x: i * 7, y: 20})
+        .with(Position {x: i * 4, y: 20})
         .with(Renderable {
-            glyph: rltk::to_cp437('Σ'),
+            glyph: rltk::to_cp437('☺'),
             fg: RGB::named(rltk::RED),
             bg: RGB::named(rltk::BLACK),
         })
